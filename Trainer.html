@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+    <script src="jquery.min.js"></script>
+    <script src="papaparse.min.js"></script>
+    <script>
+        var config = buildConfig();
+
+        function loadDataFromCSV() {
+            // $.get('Vowels.csv', function (data) {
+            //     $(data).parse({
+            //         config: config,
+            //         before: function (file, inputElem) {
+            //             console.log("Parsing file...", file);
+            //         },
+            //         error: function (err, file) {
+            //             console.log("ERROR:", err, file);
+            //         },
+            //         complete: function () {
+            //             console.log("Done with all files");
+            //         }
+            //     });
+            // }, 'csv');
+            Papa.parse($('Vowels.csv'), config);
+
+        }
+
+        function buildConfig() {
+            return {
+                complete: completeFn
+            };
+        }
+        function completeFn(results, file) {
+            console.log("Parsing complete:", results, file);
+        }
+    </script>
+    <script>
+        let current_category = 0;
+        let current_sub_category = 0;
+        let current_index = 0;
+
+        const vowels_vowel = [
+            { Phoneme: "i", Vocabulary: [["bead", "/ biːd /"], ["beam", "/ biːm /"], ["bean", "/ biːn /"]] },
+            { Phoneme: "ɪ", Vocabulary: [] },
+            { Phoneme: "i <-> ɪ", Vocabulary: [] },
+            { Phoneme: "ɛ", Vocabulary: [] },
+            { Phoneme: "ɪ <-> ɛ", Vocabulary: [] },
+            { Phoneme: "æ", Vocabulary: [] },
+            { Phoneme: "ɛ <-> æ", Vocabulary: [] },
+            { Phoneme: "ə", Vocabulary: [] },
+            { Phoneme: "ʌ", Vocabulary: [] },
+            { Phoneme: "u", Vocabulary: [] },
+            { Phoneme: "ʊ", Vocabulary: [] },
+            { Phoneme: "ɔ", Vocabulary: [] },
+            { Phoneme: "ɑ", Vocabulary: [] },
+            { Phoneme: "ʌ <-> ɑ", Vocabulary: [] }];
+        const vowels_dipthong = [];
+        const vowels_r_colored = [];
+
+
+        const database = [vowels_vowel, vowels_dipthong, vowels_r_colored];
+
+
+
+        // index_offset == 1, go next page, == 0, go back to last one
+        function whenChangePage(category, index_offset) {
+            if (category >= 0) {
+                current_category = category;
+                current_sub_category = 0;
+                current_index = 0;
+            } else {
+                if (index_offset < 0) {
+                    if (current_index == 0 && current_sub_category == 0) {
+                        window.alert("This is the first word! Cannot going back!");
+                        return 0;
+                    }
+                    if (current_index == 0) {
+                        // go back to last one sub category
+                        current_sub_category--;
+                        current_index = database[current_category][current_sub_category].length;
+                    }
+                    current_index--;
+                } else {
+                    if (current_index == database[current_category][current_sub_category].length - 1) {
+                        if (current_sub_category == database[current_category].length - 1) {
+                            window.alert("No more word in this category! Good job!");
+                            return 0;
+                        }
+                        // go to next sub category
+                        ++current_sub_category;
+                        current_index = -1;
+                    }
+                    ++current_index;
+                }
+            }
+
+            window.open('https://www.google.com/search?q=' + database[current_category][current_sub_category].Vocabulary[current_index][0] + '+pronunciation', 'new', 'popup'); return false;
+            return 0;
+        }
+
+    </script>
+    <h1>Perfect Pronunciation With Google</h1>
+    <a href='https://www.google.com/search?q=${current_word}+pronunciation'
+        onclick="window.open(this.href, 'new', 'popup'); return false;">
+        Next
+    </a>
+
+    <button onclick="whenChangePage(0, 1)">
+        Last
+    </button>
+    <button onclick="loadDataFromCSV()">
+        Try load
+    </button>
+
+</body>
+
+</html>
