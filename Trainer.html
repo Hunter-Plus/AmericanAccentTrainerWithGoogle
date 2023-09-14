@@ -2,66 +2,66 @@
 <html>
 
 <body>
-    <script src="jquery.min.js"></script>
-    <script src="papaparse.min.js"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/papaparse.min.js"></script>
     <script>
-        var config = buildConfig();
+        const Categories = ['Vowels', 'Dipthong', 'R_Colored', 'Stops', 'Nasal', 'FricativeAndAffricate', 'Approximant'];
+        const database = [];
+        const Vowels = [];
+        const Dipthong = [];
+        const R_Colored = [];
+        const Stops = [];
+        const Nasal = [];
+        const FricativeAndAffricate = [];
+        const Approximant = [];
 
         function loadDataFromCSV() {
-            // $.get('Vowels.csv', function (data) {
-            //     $(data).parse({
-            //         config: config,
-            //         before: function (file, inputElem) {
-            //             console.log("Parsing file...", file);
-            //         },
-            //         error: function (err, file) {
-            //             console.log("ERROR:", err, file);
-            //         },
-            //         complete: function () {
-            //             console.log("Done with all files");
-            //         }
-            //     });
-            // }, 'csv');
-            Papa.parse($('Vowels.csv'), config);
+            for (var i = 0; i < Categories.length; i++) {
+                var completeFn = eval(functionStringGenerator(Categories[i]));
+                $.get(urlStringGenerator(Categories[i]), function (data) {
+                    Papa.parse(data, {
+                        complete: completeFn
+                    });
+                })
+            }
+            console.log("database after load:", database)
 
         }
 
-        function buildConfig() {
-            return {
-                complete: completeFn
-            };
+        // unused, just for comprehension, has the same logic with functionStringGenerator
+        function completeFnExample(category) {
+            return function (results, file) {
+                console.log("Parsing complete:", results, file);
+                for (var i = 0; i < results.data[0].length; i++) {
+                    category.push({ Phoneme: results.data[0][i], Vocabulary: [] });
+                    // each 2 consecutive symbols are same, one for words, one for phonetic symbols
+                    i++;
+                };
+                for (var i = 1; i < results.data.length; i++) {
+                    for (var j = 0; j < results.data[i].length; j++) {
+                        if (results.data[i][j].length > 0) {
+                            category[j / 2].Vocabulary.push([results.data[i][j], results.data[i][++j]]);
+                        }
+                    }
+                };
+                console.log("Loaded category:", category);
+                database.push(category);
+            }
         }
-        function completeFn(results, file) {
-            console.log("Parsing complete:", results, file);
+
+        function functionStringGenerator(category) {
+            return '(function(a,o) {console.log("Parsing complete:",a,o);for(var t=0;t<a.data[0].length;t++) ' + category + '.push({Phoneme:a.data[0][t],Vocabulary:[]}),t++;for(var t=1;t<a.data.length;t++)for(var e=0;e<a.data[t].length;e++)a.data[t][e].length>0&& ' + category + '[e/2].Vocabulary.push([a.data[t][e],a.data[t][++e]]);console.log("Loaded category:", category, ' + category + ' ); database.push(' + category + ');})';
+        }
+
+        // remember to modify the url after forking
+        function urlStringGenerator(category) {
+            return 'https://raw.githack.com/Hunter-Plus/AmericanAccentTrainerWithGoogle/main/vocabulary/{{category}}.csv'.replace("{{category}}", category);
         }
     </script>
     <script>
-        let current_category = 0;
-        let current_sub_category = 0;
-        let current_index = 0;
-
-        const vowels_vowel = [
-            { Phoneme: "i", Vocabulary: [["bead", "/ biːd /"], ["beam", "/ biːm /"], ["bean", "/ biːn /"]] },
-            { Phoneme: "ɪ", Vocabulary: [] },
-            { Phoneme: "i <-> ɪ", Vocabulary: [] },
-            { Phoneme: "ɛ", Vocabulary: [] },
-            { Phoneme: "ɪ <-> ɛ", Vocabulary: [] },
-            { Phoneme: "æ", Vocabulary: [] },
-            { Phoneme: "ɛ <-> æ", Vocabulary: [] },
-            { Phoneme: "ə", Vocabulary: [] },
-            { Phoneme: "ʌ", Vocabulary: [] },
-            { Phoneme: "u", Vocabulary: [] },
-            { Phoneme: "ʊ", Vocabulary: [] },
-            { Phoneme: "ɔ", Vocabulary: [] },
-            { Phoneme: "ɑ", Vocabulary: [] },
-            { Phoneme: "ʌ <-> ɑ", Vocabulary: [] }];
-        const vowels_dipthong = [];
-        const vowels_r_colored = [];
-
-
-        const database = [vowels_vowel, vowels_dipthong, vowels_r_colored];
-
-
+        var current_category = 0;
+        var current_sub_category = 0;
+        var current_index = 0;
 
         // index_offset == 1, go next page, == 0, go back to last one
         function whenChangePage(category, index_offset) {
