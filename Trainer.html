@@ -1,9 +1,333 @@
 <!DOCTYPE html>
 <html>
 
-<body>
+<head>
     <script src="js/jquery.min.js"></script>
     <script src="js/papaparse.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            background-image: linear-gradient(120deg, #7e2222 0%, #254d92 100%);
+            ;
+        }
+
+        .navigation {
+            width: 1200px;
+            height: 60px;
+            margin: 0 auto;
+            border-radius: 25px;
+            background-color: #dbd7d7;
+            margin-top: 50px;
+        }
+
+        .content {
+            width: 1200px;
+            margin: 0 auto;
+        }
+
+        a {
+            text-decoration: none;
+            font-size: medium;
+            color: #333;
+        }
+
+        ul li {
+            float: left;
+            width: 150px;
+            height: 60px;
+            line-height: 60px;
+            text-align: center;
+            list-style: none;
+        }
+
+        .btn {
+            width: 110px;
+            height: 40px;
+            margin-top: 100px;
+            /* margin-left: 75px; */
+            margin: 50px;
+            font-size: 16px;
+            border-radius: 20px;
+            background-image: linear-gradient(135deg, #D7A942 0%, #A56246 100%);
+        }
+
+        .box {
+            display: none;
+        }
+
+        .box li {
+            background-color: #f2ecec;
+        }
+
+        .box li:hover {
+            background-color: #f2ecec;
+            color: #333;
+        }
+
+        h1 {
+            font-family: 'Times New Roman', Times, serif;
+            font-size: 66px;
+            color: #A56246;
+        }
+
+        .symbol {
+            font-size: 210px;
+            color: #D7A942;
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .word {
+            font-size: 100px;
+            color: #CAC8C5;
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .phonetic {
+            font-size: 140px;
+            color: #E3E2DE;
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+        }
+
+        .pagination {
+            text-align: center;
+        }
+
+        .footer {
+            align-items: flex-end;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+        }
+
+        .logo {
+            width: 5rem;
+            height: 5rem;
+            min-width: 5rem;
+            min-height: 5rem;
+            float: left;
+            background-repeat: no-repeat;
+            background-size: cover;
+            margin: 10px;
+        }
+
+        .statement {
+            float: left;
+            margin-top: 20%;
+            text-align: center;
+            font-family: 'Times New Roman', Times, serif;
+            /* font-size: 66px; */
+            color: #D7A942;
+        }
+
+        .sounds_block {
+            height: 500px;
+            width: 900px;
+            border: none;
+        }
+
+        .iframe_wrapper {
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Perfect Pronunciation With Google</h1>
+    <div class="navigation">
+        <div class="content">
+            <ul id="nav">
+                <li>
+                    <a href="javascript:;" onclick="whenChangePage(0, 0, 0)">Vowels</a>
+                    <ul class="box">
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 0, 0)">i</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 1, 0)">ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 2, 0)">i <-> ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 3, 0)">ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 4, 0)">ɪ <-> ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 5, 0)">æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 6, 0)">ɛ <-> æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 7, 0)">ə</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 8, 0)">ʌ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 9, 0)">u</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 10, 0)">ʊ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 11, 0)">ɔ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 12, 0)">ɑ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 13, 0)">ʌ <-> ɑ</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" onclick="whenChangePage(1, 0, 0)">Dipthong</a>
+                    <ul class="box">
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 0, 0)">i</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 1, 0)">ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 2, 0)">i <-> ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 3, 0)">ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 4, 0)">ɪ <-> ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 5, 0)">æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 6, 0)">ɛ <-> æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 7, 0)">ə</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 8, 0)">ʌ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 9, 0)">u</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 10, 0)">ʊ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 11, 0)">ɔ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 12, 0)">ɑ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 13, 0)">ʌ <-> ɑ</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" onclick="whenChangePage(2, 0, 0)">R_Colored</a>
+                    <ul class="box">
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 0, 0)">i</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 1, 0)">ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 2, 0)">i <-> ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 3, 0)">ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 4, 0)">ɪ <-> ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 5, 0)">æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 6, 0)">ɛ <-> æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 7, 0)">ə</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 8, 0)">ʌ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 9, 0)">u</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 10, 0)">ʊ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 11, 0)">ɔ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 12, 0)">ɑ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 13, 0)">ʌ <-> ɑ</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" onclick="whenChangePage(3, 0, 0)">Stops</a>
+                    <ul class="box">
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 0, 0)">i</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 1, 0)">ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 2, 0)">i <-> ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 3, 0)">ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 4, 0)">ɪ <-> ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 5, 0)">æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 6, 0)">ɛ <-> æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 7, 0)">ə</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 8, 0)">ʌ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 9, 0)">u</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 10, 0)">ʊ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 11, 0)">ɔ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 12, 0)">ɑ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 13, 0)">ʌ <-> ɑ</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" onclick="whenChangePage(4, 0, 0)">Nasal</a>
+                    <ul class="box">
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 0, 0)">i</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 1, 0)">ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 2, 0)">i <-> ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 3, 0)">ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 4, 0)">ɪ <-> ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 5, 0)">æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 6, 0)">ɛ <-> æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 7, 0)">ə</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 8, 0)">ʌ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 9, 0)">u</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 10, 0)">ʊ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 11, 0)">ɔ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 12, 0)">ɑ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 13, 0)">ʌ <-> ɑ</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" onclick="whenChangePage(5, 0, 0)">Fricative&Affricate</a>
+                    <ul class="box">
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 0, 0)">i</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 1, 0)">ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 2, 0)">i <-> ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 3, 0)">ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 4, 0)">ɪ <-> ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 5, 0)">æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 6, 0)">ɛ <-> æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 7, 0)">ə</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 8, 0)">ʌ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 9, 0)">u</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 10, 0)">ʊ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 11, 0)">ɔ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 12, 0)">ɑ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 13, 0)">ʌ <-> ɑ</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" onclick="whenChangePage(6, 0, 0)">Approximant</a>
+                    <ul class="box">
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 0, 0)">i</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 1, 0)">ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 2, 0)">i <-> ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 3, 0)">ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 4, 0)">ɪ <-> ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 5, 0)">æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 6, 0)">ɛ <-> æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 7, 0)">ə</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 8, 0)">ʌ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 9, 0)">u</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 10, 0)">ʊ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 11, 0)">ɔ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 12, 0)">ɑ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 13, 0)">ʌ <-> ɑ</a></li>
+                    </ul>
+                </li>
+                <li>
+                    <a href="javascript:;" onclick="whenChangePage(7, 0, 0)">Vocabulary</a>
+                    <ul class="box">
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 0, 0)">i</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 1, 0)">ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 2, 0)">i <-> ɪ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 3, 0)">ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 4, 0)">ɪ <-> ɛ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 5, 0)">æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 6, 0)">ɛ <-> æ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 7, 0)">ə</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 8, 0)">ʌ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 9, 0)">u</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 10, 0)">ʊ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 11, 0)">ɔ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 12, 0)">ɑ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(0, 13, 0)">ʌ <-> ɑ</a></li>
+                    </ul>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+    <p class="symbol" id="symbol_block">æ</p>
+    <p class="word" id="word_block" onclick="whenChangePage(-1, -1, 0)">apple</p>
+    <p class="phonetic" id="phonetic_block" onclick="whenChangePage(-1, -1, 0)">/ ˈæp(ə)l /</p>
+    <div class="pagination">
+        <button onclick="whenChangePage(-1, -1, -1)" class="btn">
+            Last
+        </button>
+        <button onclick="whenChangePage(-1, -1, 1)" class="btn">
+            Next
+        </button>
+    </div>
+    <div class="iframe_wrapper">
+        <iframe src="https://soundsamerican.net/" class="sounds_block" title="Sounds American"></iframe>
+    </div>
+    <div class="footer">
+        <p class="statement">Powered by@ </p>
+        <a href="https://dictionary.cambridge.org/" title="CambridgeDictionary" target="_blank"
+            rel="noopener noreferrer nofollow">
+            <div class="logo" style="background-image: url('img/cambridgedictionary.png')"></div>
+        </a>
+        <a href="https://soundsamerican.net/" title="SoundsAmerican" target="_blank" rel="noopener noreferrer nofollow">
+            <div class="logo" style="background-image: url('img/soundsamerican.svg')"></div>
+        </a>
+        <a href="https://www.google.com/" title="GoogleSearch" target="_blank" rel="noopener noreferrer nofollow">
+            <div class="logo" style="background-image: url('img/googlesearch.svg')"></div>
+        </a>
+    </div>
+
+
     <script>
         const Categories = ['Vowels', 'Dipthong', 'R_Colored', 'Stops', 'Nasal', 'FricativeAndAffricate', 'Approximant'];
         const database = [];
@@ -50,68 +374,116 @@
         }
 
         function functionStringGenerator(category) {
-            return '(function(a,o) {console.log("Parsing complete:",a,o);for(var t=0;t<a.data[0].length;t++) ' + category + '.push({Phoneme:a.data[0][t],Vocabulary:[]}),t++;for(var t=1;t<a.data.length;t++)for(var e=0;e<a.data[t].length;e++)a.data[t][e].length>0&& ' + category + '[e/2].Vocabulary.push([a.data[t][e],a.data[t][++e]]);console.log("Loaded category:", category, ' + category + ' ); database.push(' + category + ');})';
+            return '(function(a,o) {console.log("Parsing complete:",a,o);for(var t=0;t<a.data[0].length;t++) ' + category + '.push({Phoneme:a.data[0][t],Vocabulary:[]}),t++;for(var t=1;t<a.data.length;t++)for(var e=0;e<a.data[t].length;e++)a.data[t][e].length>0&& ' + category + '[e/2].Vocabulary.push([a.data[t][e],a.data[t][++e]]);console.log("Loaded category:",' + category + ' ); database.push(' + category + ');})';
         }
 
         // remember to modify the url after forking
         function urlStringGenerator(category) {
             return 'https://raw.githack.com/Hunter-Plus/AmericanAccentTrainerWithGoogle/main/vocabulary/{{category}}.csv'.replace("{{category}}", category);
+
+
         }
     </script>
+    <script>
+        // initialize the navigation bar
+        function buildNavigationFromCategories() {
+            if (Categories.length != database.length) {
+                window.alert("Loading process partially failed, CSV files cannot be empty!");
+                return 0;
+            }
+            for (var i = 0; i < Categories.length; i++) {
+
+            }
+        }
+    </script>
+
     <script>
         var current_category = 0;
         var current_sub_category = 0;
         var current_index = 0;
+        let trainer_window;
 
-        // index_offset == 1, go next page, == 0, go back to last one
-        function whenChangePage(category, index_offset) {
-            if (category >= 0) {
+        // index_offset == 1, go next page; == -1, go back to last one; ==0 stay;
+        function whenChangePage(category, sub_category, index_offset) {
+            try {
+                if (trainer_window != undefined) {
+                    trainer_window.close();
+                }
+            } catch (error) {
+                console.log(error);
+                // do nothing;
+            }
+
+            if (category >= 0 && sub_category >= 0) {
+                // change the categories
                 current_category = category;
-                current_sub_category = 0;
+                current_sub_category = sub_category;
                 current_index = 0;
             } else {
-                if (index_offset < 0) {
+                if (index_offset == -1) {
                     if (current_index == 0 && current_sub_category == 0) {
                         window.alert("This is the first word! Cannot going back!");
                         return 0;
                     }
                     if (current_index == 0) {
                         // go back to last one sub category
-                        current_sub_category--;
+                        current_sub_category -= 1;
                         current_index = database[current_category][current_sub_category].length;
                     }
-                    current_index--;
-                } else {
+                } else if (index_offset == 1) {
                     if (current_index == database[current_category][current_sub_category].length - 1) {
                         if (current_sub_category == database[current_category].length - 1) {
                             window.alert("No more word in this category! Good job!");
                             return 0;
                         }
                         // go to next sub category
-                        ++current_sub_category;
+                        current_sub_category += 1;
                         current_index = -1;
                     }
-                    ++current_index;
+                } else {
+                    // do nothing, opening the current link
                 }
-            }
+                current_index += index_offset;
 
-            window.open('https://www.google.com/search?q=' + database[current_category][current_sub_category].Vocabulary[current_index][0] + '+pronunciation', 'new', 'popup'); return false;
+
+
+            }
+            $('#symbol_block').text(database[current_category][current_sub_category].Phoneme);
+            $('#word_block').text(database[current_category][current_sub_category].Vocabulary[current_index][0]);
+            $('#phonetic_block').text(database[current_category][current_sub_category].Vocabulary[current_index][1]);
+
+            trainer_window = window.open("https://www.google.com/search?q=" + database[current_category][current_sub_category].Vocabulary[current_index][0] + "+pronunciation", "_child", "popup, menubar=0, toolbar=0, status=0, left=0, top=300, width=700, height=600"); return false;
             return 0;
         }
 
     </script>
-    <h1>Perfect Pronunciation With Google</h1>
-    <a href='https://www.google.com/search?q=${current_word}+pronunciation'
-        onclick="window.open(this.href, 'new', 'popup'); return false;">
-        Next
-    </a>
+    <script>
+        $("#nav>li").hover(function () {
+            $(this).children("a").css("color", "#A9143C");
+            $(this).children("ul").fadeIn(300);
+        },
+            function () {
+                $(this).children("a").css("color", "#333");
+                $(this).children("ul").fadeOut(100);
+            });
+        $("#nav>li>ul>li").hover(function () {
+            $(this).children("a").css("color", "#0A3161");
+            $(this).children("a").css("font-size", "xx-large");
+        }, function () {
+            $(this).children("a").css("color", "#333");
+            $(this).children("a").css("font-size", "medium");
+        })
 
-    <button onclick="whenChangePage(0, 1)">
-        Last
-    </button>
-    <button onclick="loadDataFromCSV()">
-        Try load
-    </button>
+        var btn = $("button")
+        $("button").hover(function () {
+            $(this).animate({ fontSize: "22px" });
+        },
+            function () {
+                $(this).animate({ fontSize: "16px" });
+            })
+        $(document).ready(loadDataFromCSV());
+
+    </script>
 
 </body>
 
