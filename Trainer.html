@@ -61,6 +61,8 @@
 
         .box li {
             background-color: #f2ecec;
+            height: 30px;
+            line-height: 30px;
         }
 
         .box li:hover {
@@ -138,7 +140,7 @@
     </style>
 </head>
 
-<body>
+<body onload='console.log(" We have ", words_count, " Words to practice!");''>
     <h1>Perfect Pronunciation With Google</h1>
     <div class="navigation">
         <div class="content">
@@ -221,11 +223,12 @@
                         <li><a href="javascript:;" onclick="whenChangePage(5, 3, 0)">ð</a></li>
                         <li><a href="javascript:;" onclick="whenChangePage(5, 4, 0)">s</a></li>
                         <li><a href="javascript:;" onclick="whenChangePage(5, 5, 0)">z</a></li>
-                        <li><a href="javascript:;" onclick="whenChangePage(5, 6, 0)">ʃ</a></li>
-                        <li><a href="javascript:;" onclick="whenChangePage(5, 7, 0)">ʒ</a></li>
-                        <li><a href="javascript:;" onclick="whenChangePage(5, 8, 0)">tʃ</a></li>
-                        <li><a href="javascript:;" onclick="whenChangePage(5, 9, 0)">dʒ</a></li>
-                        <li><a href="javascript:;" onclick="whenChangePage(5, 10, 0)">h</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(5, 6, 0)">-s words</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(5, 7, 0)">ʃ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(5, 8, 0)">ʒ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(5, 9, 0)">tʃ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(5, 10, 0)">dʒ</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(5, 11, 0)">h</a></li>
                     </ul>
                 </li>
                 <li>
@@ -233,7 +236,7 @@
                     <ul class="box">
                         <li><a href="javascript:;" onclick="whenChangePage(6, 0, 0)">r</a></li>
                         <li><a href="javascript:;" onclick="whenChangePage(6, 1, 0)">l</a></li>
-                        <li><a href="javascript:;" onclick="whenChangePage(6, 2, 0)">dark l</a></li>
+                        <li><a href="javascript:;" onclick="whenChangePage(6, 2, 0)">ɫ</a></li>
                         <li><a href="javascript:;" onclick="whenChangePage(6, 3, 0)">l & r</a></li>
                         <li><a href="javascript:;" onclick="whenChangePage(6, 4, 0)">Adv l & r</a></li>
                         <li><a href="javascript:;" onclick="whenChangePage(6, 5, 0)">j</a></li>
@@ -257,8 +260,8 @@
         </div>
     </div>
     <p class="symbol" id="symbol_block">æ</p>
-    <p class="word" id="word_block" onclick="whenChangePage(-1, -1, 0)">apple</p>
-    <p class="phonetic" id="phonetic_block" onclick="whenChangePage(-1, -1, 0)">/ ˈæp(ə)l /</p>
+    <p class="word" id="word_block">apple</p>
+    <p class="phonetic" id="phonetic_block">/ ˈæp(ə)l /</p>
     <div class="pagination">
         <button onclick="whenChangePage(-1, -1, -1)" class="btn">
             Last
@@ -274,20 +277,22 @@
         <p class="statement">Powered by@ </p>
         <a href="https://dictionary.cambridge.org/" title="CambridgeDictionary" target="_blank"
             rel="noopener noreferrer nofollow">
-            <div class="logo" style="background-image: url('img/cambridgedictionary.png')"></div>
-        </a>
-        <a href="https://soundsamerican.net/" title="SoundsAmerican" target="_blank" rel="noopener noreferrer nofollow">
-            <div class="logo" style="background-image: url('img/soundsamerican.svg')"></div>
-        </a>
-        <a href="https://www.google.com/" title="GoogleSearch" target="_blank" rel="noopener noreferrer nofollow">
-            <div class="logo" style="background-image: url('img/googlesearch.svg')"></div>
-        </a>
+            <div class="logo" style="background-image: url(' img/cambridgedictionary.png')">
+    </div>
+    </a>
+    <a href="https://soundsamerican.net/" title="SoundsAmerican" target="_blank" rel="noopener noreferrer nofollow">
+        <div class="logo" style="background-image: url('img/soundsamerican.svg')"></div>
+    </a>
+    <a href="https://www.google.com/" title="GoogleSearch" target="_blank" rel="noopener noreferrer nofollow">
+        <div class="logo" style="background-image: url('img/googlesearch.svg')"></div>
+    </a>
     </div>
 
 
     <script>
         const Categories = ['Vowels', 'Dipthong', 'R_Colored', 'Stops', 'Nasal', 'FricativeAndAffricate', 'Approximant', 'Words'];
-        const database = [];
+        var database = [];
+        var words_count = 0;
         const Vowels = [];
         const Dipthong = [];
         const R_Colored = [];
@@ -299,15 +304,14 @@
 
         function loadDataFromCSV() {
             for (var i = 0; i < Categories.length; i++) {
-                var completeFn = eval(functionStringGenerator(Categories[i]));
+                let completeFn = eval(functionStringGenerator(Categories[i]));
                 $.get(urlStringGenerator(Categories[i]), function (data) {
                     Papa.parse(data, {
                         complete: completeFn
                     });
                 })
             }
-            console.log("database after load:", database)
-
+            console.log("database after load:", database);
         }
 
         // unused, just for comprehension, has the same logic with functionStringGenerator
@@ -323,18 +327,22 @@
                     for (var j = 0; j < results.data[i].length; j++) {
                         if (results.data[i][j].length > 0) {
                             category[j / 2].Vocabulary.push([results.data[i][j], results.data[i][++j]]);
+                            words_count++;
                         }
                     }
                 };
                 console.log("Loaded category:", category);
-                database.push(category);
+                database[Categories.indexOf(category)] = category;
+                // database.push(category);
             }
         }
 
+        // function functionStringGenerator(category) {
+        //     return '(function(a,o) {console.log("Parsing complete:",a,o);for(var t=0;t<a.data[0].length;t++) ' + category + '.push({Phoneme:a.data[0][t],Vocabulary:[]}),t++;for(var t=1;t<a.data.length;t++)for(var e=0;e<a.data[t].length;e++)a.data[t][e].length>0&& ' + category + '[e/2].Vocabulary.push([a.data[t][e],a.data[t][++e]]);console.log("Loaded category:",' + category + ' ); database.push(' + category + ');})';
+        // }
         function functionStringGenerator(category) {
-            return '(function(a,o) {console.log("Parsing complete:",a,o);for(var t=0;t<a.data[0].length;t++) ' + category + '.push({Phoneme:a.data[0][t],Vocabulary:[]}),t++;for(var t=1;t<a.data.length;t++)for(var e=0;e<a.data[t].length;e++)a.data[t][e].length>0&& ' + category + '[e/2].Vocabulary.push([a.data[t][e],a.data[t][++e]]);console.log("Loaded category:",' + category + ' ); database.push(' + category + ');})';
+            return '(function(a,o) {console.log("Parsing complete:",a,o);for(var t=0;t<a.data[0].length;t++) ' + category + '.push({Phoneme:a.data[0][t],Vocabulary:[]}),t++;for(var t=1;t<a.data.length;t++)for(var e=0;e<a.data[t].length;e++)a.data[t][e].length>0&& ' + category + '[e/2].Vocabulary.push([a.data[t][e],a.data[t][++e]]),words_count += 1;console.log("Loaded category:",' + category + ' ); database[Categories.indexOf("' + category + '")] = ' + category + ';})';
         }
-
         // remember to modify the url after forking
         function urlStringGenerator(category) {
             return 'https://raw.githack.com/Hunter-Plus/AmericanAccentTrainerWithGoogle/main/vocabulary/{{category}}.csv'.replace("{{category}}", category);
@@ -360,12 +368,17 @@
         var current_sub_category = 0;
         var current_index = 0;
         let trainer_window;
+        let dictionary_window;
+        const open_dictionary = true;
 
         // index_offset == 1, go next page; == -1, go back to last one; ==0 stay;
         function whenChangePage(category, sub_category, index_offset) {
             try {
                 if (trainer_window != undefined) {
                     trainer_window.close();
+                }
+                if (dictionary_window != undefined) {
+                    dictionary_window.close();
                 }
             } catch (error) {
                 console.log(error);
@@ -386,10 +399,12 @@
                     if (current_index == 0) {
                         // go back to last one sub category
                         current_sub_category -= 1;
-                        current_index = database[current_category][current_sub_category].length;
+                        current_index = database[current_category][current_sub_category].Vocabulary.length;
                     }
                 } else if (index_offset == 1) {
-                    if (current_index == database[current_category][current_sub_category].length - 1) {
+                    console.log(database[current_category][current_sub_category].Vocabulary.length);
+                    if (current_index == database[current_category][current_sub_category].Vocabulary.length - 1) {
+                        console.log();
                         if (current_sub_category == database[current_category].length - 1) {
                             window.alert("No more word in this category! Good job!");
                             return 0;
@@ -410,7 +425,11 @@
             $('#word_block').text(database[current_category][current_sub_category].Vocabulary[current_index][0]);
             $('#phonetic_block').text(database[current_category][current_sub_category].Vocabulary[current_index][1]);
 
-            trainer_window = window.open("https://www.google.com/search?q=" + database[current_category][current_sub_category].Vocabulary[current_index][0] + "+pronunciation", "_child", "popup, menubar=0, toolbar=0, status=0, left=0, top=300, width=700, height=600"); return false;
+            trainer_window = window.open("https://www.google.com/search?q=" + database[current_category][current_sub_category].Vocabulary[current_index][0] + "+pronunciation", "_child", "popup, menubar=0, toolbar=0, status=0, left=0, top=300, width=700, height=900");
+            // be temporarily used for gathering phonetic 
+            if (open_dictionary) {
+                dictionary_window = window.open("https://dictionary.cambridge.org/us/dictionary/english/" + database[current_category][current_sub_category].Vocabulary[current_index][0], "_phonetic", "popup, menubar=0, toolbar=0, status=0, left=3000, top=300, width=700, height=900");
+            }
             return 0;
         }
 
@@ -440,6 +459,7 @@
                 $(this).animate({ fontSize: "16px" });
             })
         $(document).ready(loadDataFromCSV());
+
 
     </script>
 
