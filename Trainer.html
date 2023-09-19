@@ -275,9 +275,9 @@
     </div>
     <div class="footer">
         <p class="statement">Powered by@ </p>
-        <a href="https://dictionary.cambridge.org/" title="CambridgeDictionary" target="_blank"
+        <a href="https://www.britannica.com/dictionary/" title="BritannicaDictionary" target="_blank"
             rel="noopener noreferrer nofollow">
-            <div class="logo" style="background-image: url(' img/cambridgedictionary.png')">
+            <div class="logo" style="background-image: url(' img/britannica.png')">
     </div>
     </a>
     <a href="https://soundsamerican.net/" title="SoundsAmerican" target="_blank" rel="noopener noreferrer nofollow">
@@ -428,7 +428,8 @@
             trainer_window = window.open("https://www.google.com/search?q=" + database[current_category][current_sub_category].Vocabulary[current_index][0] + "+pronunciation", "_child", "popup, menubar=0, toolbar=0, status=0, left=0, top=300, width=700, height=900");
             // be temporarily used for gathering phonetic 
             if (open_dictionary) {
-                dictionary_window = window.open("https://dictionary.cambridge.org/us/dictionary/english/" + database[current_category][current_sub_category].Vocabulary[current_index][0], "_phonetic", "popup, menubar=0, toolbar=0, status=0, left=3000, top=300, width=700, height=900");
+                // dictionary_window = window.open("https://dictionary.cambridge.org/us/dictionary/english/" + database[current_category][current_sub_category].Vocabulary[current_index][0], "_phonetic", "popup, menubar=0, toolbar=0, status=0, left=3000, top=300, width=700, height=900");
+                dictionary_window = window.open("https://www.britannica.com/dictionary/" + database[current_category][current_sub_category].Vocabulary[current_index][0], "_phonetic", "popup, menubar=0, toolbar=0, status=0, left=3000, top=300, width=700, height=900");
             }
             return 0;
         }
