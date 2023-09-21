@@ -140,7 +140,7 @@
     </style>
 </head>
 
-<body onload='console.log(" We have ", words_count, " Words to practice!");''>
+<body onload='console.log(" We have ", words_count/2, " Words to practice!");''>
     <h1>Perfect Pronunciation With Google</h1>
     <div class="navigation">
         <div class="content">
@@ -351,19 +351,6 @@
 
         }
     </script>
-    <script>
-        // initialize the navigation bar
-        function buildNavigationFromCategories() {
-            if (Categories.length != database.length) {
-                window.alert("Loading process partially failed, CSV files cannot be empty!");
-                return 0;
-            }
-            for (var i = 0; i < Categories.length; i++) {
-
-            }
-        }
-    </script>
-
     <script>
         var current_category = 0;
         var current_sub_category = 0;
